@@ -1,4 +1,10 @@
 <?php // riasec questionnaire Ed Jones  5/22/2020
+//Front End Changed Faiza Maghrabi:
+//NOTES:
+//Session based code is commented off (23-36, 45, 117-125)
+//More errors given below in localhost
+
+
 session_start();
 
 $debug=false;
@@ -15,20 +21,20 @@ if($debug){print_r($lookup);}
 
 
 // open up db connection for result save
-require ("connect.php");
-$result = [];
+// require ("connect.php");
+// $result = [];
 
-$userip=$_SERVER['REMOTE_ADDR'];
+// $userip=$_SERVER['REMOTE_ADDR'];
 
 // Check for existing RIASEC scores
-$score_exist = false;
-$sql="SELECT * FROM " . $dbname . ".interest_scores WHERE userid='" . $_SESSION["userid"] . "' ORDER BY interest_scores_date DESC";
-$result = $con->query($sql);
-$scores=[];
-if($result->num_rows > 0){  // RIASEC scores for this user exist ... first record fetched is the latest
-$score_exist = true;
-$scores=$result->fetch_assoc();	
-}
+// $score_exist = false;
+// $sql="SELECT * FROM " . $dbname . ".interest_scores WHERE userid='" . $_SESSION["userid"] . "' ORDER BY interest_scores_date DESC";
+// $result = $con->query($sql);
+// $scores=[];
+// if($result->num_rows > 0){  // RIASEC scores for this user exist ... first record fetched is the latest
+// $score_exist = true;
+// $scores=$result->fetch_assoc();	
+// }
 
 //$sql="SELECT * FROM inferent_ifutures.profile WHERE profile_owner=" . $_SESSION['userid'] . " ORDER BY profile_date DESC";
 //$result = $con->query($sql);
@@ -37,7 +43,7 @@ $scores=$result->fetch_assoc();
 //}else{
 //$row=$result->fetch_assoc();
 
-$con->close();
+// $con->close();
 
 ?>
 <!doctype html>
@@ -109,7 +115,7 @@ $con->close();
 
 <!-- check if user logged in and display appropriate top menu -->
 
-<?php
+<!-- <?php
 //echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
 if (isset($_SESSION["authorized"])== FALSE) {
 	include('./includes/top-menu-notloggedin.html');
@@ -117,7 +123,7 @@ if (isset($_SESSION["authorized"])== FALSE) {
 else {
 	include('./includes/top-menu-loggedin.html');
 }
-?>
+?> -->
 
 <!-- end of top menu -->
 
@@ -186,43 +192,59 @@ else {
 	<h2>Interest Survey</h4>
 	<h3>Do not worry about whether you have the skills or training to do an activity, or how much money you might make. Simply think about whether you would enjoy doing it or not and rate each item from 1 ( Would hate doing it!)  to 5 (Would love doing it!).</h3>
 	<h3>1..............................5    Low Interest to High Interest</h3> 
-	
-	<style>
-	
-	</style>
-	
-	
 		
 	</div>
 
+	
+	<style>
+		/* toggle visibility */
+		.visible{
+			style.display: "block";
+		}
+
+		.invisible{
+			style.display: "none";
+			position: absolute;
+		}
+
+	</style>
 
 	<?php
-	$resultForm = "<form action='riasecResult.php' method='POST'>";
-	for ($x=0;$x<count($lookup);$x++){
-	$number=$lookup[$x]['question#'];
-	$area=$lookup[$x]['area'];
-	$question=$lookup[$x]['text'];
-	for($y=0;$y<5;$y++){ 
-	if($y == 2){$resultForm = $resultForm . "<input type='radio' style='height:35px; width:35px;' name='" . $number . "' id='" . $number . "' value='" . $y . "' checked>  </>";
-	}else{
-	$resultForm = $resultForm . "<input type='radio' style='height:35px; width:35px;' name='" . $number . "' id='" . $number . "' value='" . $y . "'>  </>";
-	}
-	
-	}
-	$resultForm = $resultForm . "<br><label style='font-weight: 500; color: blue; font-size: 30px' for='" . $number . "'>" . $question . "</label><br><br><br>";
-	}
-	$resultForm = $resultForm . "<input type='submit' value='Submit for Scoring' >";
-	$resultForm=$resultForm . "</form>";
-	echo $resultForm;
+		//Method to load a new question when button is pressed - first need to test if I can edit pre given lines in html:
+		//PLAN: load all questions using php but give them the invisible class (change to tag?) within a container,
+		//this way, the questions will still be associated to the form and not visible for the user - forward and backward buttons?
+		//Once a button is pressed (next) the current visible question is hidden and the next one is shown (change tag on button to keep track of question numbers)
+		//JS FILE IS NEEDED TO DO THIS
+		$line = "<h1 class='visible'>HIDDEN TEXT</h1>";
+		echo $line;
 	?>
-	<p><br /><a href="holland.php">Find out more about the Holland Interest Questionnaire here</a>
+
+	<?php
+		$resultForm = "<form action='riasecResult.php' method='POST'>";
+		for ($x=0;$x<count($lookup);$x++){
+			$number=$lookup[$x]['question#'];
+			$area=$lookup[$x]['area'];
+			$question=$lookup[$x]['text'];
+			for($y=0;$y<5;$y++){ 
+				if($y == 2){$resultForm = $resultForm . "<input type='radio' style='height:35px; width:35px;' name='" . $number . "' id='" . $number . "' value='" . $y . "' checked>  </>";
+			}
+			else{
+				$resultForm = $resultForm . "<input type='radio' style='height:35px; width:35px;' name='" . $number . "' id='" . $number . "' value='" . $y . "'>  </>";
+			}
+			}
+		$resultForm = $resultForm . "<br><label style='font-weight: 500; color: blue; font-size: 30px' for='" . $number . "'>" . $question . "</label><br><br><br>";
+		}
+		$resultForm = $resultForm . "<input type='submit' value='Submit for Scoring' >";
+		$resultForm=$resultForm . "</form>";
+		echo $resultForm;
+	?>
+	<p>
+		<br /><a href="holland.php">Find out more about the Holland Interest Questionnaire here</a>
 	</p>
 	<?php
-	if($_SESSION['username']=="TMP"){
-		echo "<p>As a registered user you will have access to detailed personality analysis results, a personal interest assessment, recommended careers, personalized recommendation regarding upcoming events that fit you perfectly.  <a href='newlogin.php'>REGISTER NOW</a></p>";
-	}
-	
-	
+		if($_SESSION['username']=="TMP"){
+			echo "<p>As a registered user you will have access to detailed personality analysis results, a personal interest assessment, recommended careers, personalized recommendation regarding upcoming events that fit you perfectly.  <a href='newlogin.php'>REGISTER NOW</a></p>";
+		}
 	?>
 
 					</div>
