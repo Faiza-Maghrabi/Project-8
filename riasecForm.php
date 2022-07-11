@@ -1,7 +1,7 @@
 <?php // riasec questionnaire Ed Jones  5/22/2020
 //Front End Changed Faiza Maghrabi:
 //NOTES:
-//Session based code is commented off (23-36, 45, 117-125)
+//Session based code is commented off (23-36, 45, 117-125, 157-189, 248-250, 262) - but the line numbers have changed as I have coded
 //More errors given below in localhost
 
 
@@ -154,46 +154,52 @@ else {
 
 	<div>
 <?php
-	if($score_exist == true){
-	echo "<h5>Your Most Recent Interest Scores from " . $scores["interest_scores_date"] . "</h5>";
-	echo "<p>The numbers indicate your level of interest on a scale of 1 to 40 ... with 40 being very high interest</p>";
-	echo "<table>";
-	echo "<tr>";
-	echo "<td>Realistic (Things)</td>";
-	echo "<td>  " . $scores["interest_scores_r"] . "  </td>";
-	echo "</tr>";
-	echo "<td>Investigative (Ideas)</td>";
-	echo "<td>  " . $scores["interest_scores_i"] . "  </td>";
-	echo "</tr>";
-	echo "<td>Artistic (Creativity)</td>";
-	echo "<td  >" . $scores["interest_scores_a"] . "  </td>";
-	echo "</tr>";
-	echo "<td>Social (People)</td>";
-	echo "<td  >" . $scores["interest_scores_s"] . "  </td>";
-	echo "</tr>";
-	echo "<td>Enterprising (Tasks)</td>";
-	echo "<td  >" . $scores["interest_scores_e"] . "  </td>";
-	echo "</tr>";
-	echo "<td>Conventional (Order)</td>";
-	echo "<td  >" . $scores["interest_scores_c"] . "  </td>";
-	echo "</tr>";
-	echo "</table>";
+	// if($score_exist == true){
+	// echo "<h5>Your Most Recent Interest Scores from " . $scores["interest_scores_date"] . "</h5>";
+	// echo "<p>The numbers indicate your level of interest on a scale of 1 to 40 ... with 40 being very high interest</p>";
+	// echo "<table>";
+	// echo "<tr>";
+	// echo "<td>Realistic (Things)</td>";
+	// echo "<td>  " . $scores["interest_scores_r"] . "  </td>";
+	// echo "</tr>";
+	// echo "<td>Investigative (Ideas)</td>";
+	// echo "<td>  " . $scores["interest_scores_i"] . "  </td>";
+	// echo "</tr>";
+	// echo "<td>Artistic (Creativity)</td>";
+	// echo "<td  >" . $scores["interest_scores_a"] . "  </td>";
+	// echo "</tr>";
+	// echo "<td>Social (People)</td>";
+	// echo "<td  >" . $scores["interest_scores_s"] . "  </td>";
+	// echo "</tr>";
+	// echo "<td>Enterprising (Tasks)</td>";
+	// echo "<td  >" . $scores["interest_scores_e"] . "  </td>";
+	// echo "</tr>";
+	// echo "<td>Conventional (Order)</td>";
+	// echo "<td  >" . $scores["interest_scores_c"] . "  </td>";
+	// echo "</tr>";
+	// echo "</table>";
 	
-	echo "<br><br>";
-	echo "<img src='img/Holland-RIASEC.png' alt = 'Holland Interest Scale' height = '500' width = '500' ></img>";
-	echo "<br><br>";
-	echo "<h5>You May Retake The Interest Profile Below To Reset Your Interest Scores ... OR</h5><br><br>";
-	echo "<form action='/onet.php' method='post'>";
-	echo "<button type='submit' style='height:50px;width:300px'>Tick To Get Your Career Suggestions</button><br>";
-	echo "</form>";
-	}
+	// echo "<br><br>";
+	// echo "<img src='img/Holland-RIASEC.png' alt = 'Holland Interest Scale' height = '500' width = '500' ></img>";
+	// echo "<br><br>";
+	// echo "<h5>You May Retake The Interest Profile Below To Reset Your Interest Scores ... OR</h5><br><br>";
+	// echo "<form action='/onet.php' method='post'>";
+	// echo "<button type='submit' style='height:50px;width:300px'>Tick To Get Your Career Suggestions</button><br>";
+	// echo "</form>";
+	// }
 	?>
 	<br><br>
+	<!-- NEW CODE AFTER THIS -->
+	<script src="riasecForm.js" defer></script>
+	<section id="0">
 	<h2>Interest Survey</h4>
 	<h3>Do not worry about whether you have the skills or training to do an activity, or how much money you might make. Simply think about whether you would enjoy doing it or not and rate each item from 1 ( Would hate doing it!)  to 5 (Would love doing it!).</h3>
-	<h3>1..............................5    Low Interest to High Interest</h3> 
-		
+	<h3>1..............................5    Low Interest to High Interest</h3>
+	<h3>Press the Button below to begin!</h3> 
+	</section>
+
 	</div>
+
 
 	
 	<style>
@@ -215,26 +221,29 @@ else {
 		//this way, the questions will still be associated to the form and not visible for the user - forward and backward buttons?
 		//Once a button is pressed (next) the current visible question is hidden and the next one is shown (change tag on button to keep track of question numbers)
 		//JS FILE IS NEEDED TO DO THIS
-		$line = "<h1 class='visible'>HIDDEN TEXT</h1>";
-		echo $line;
 	?>
 
 	<?php
+		echo "<h1 class='number' id='1'></h1>";
 		$resultForm = "<form action='riasecResult.php' method='POST'>";
 		for ($x=0;$x<count($lookup);$x++){
 			$number=$lookup[$x]['question#'];
 			$area=$lookup[$x]['area'];
 			$question=$lookup[$x]['text'];
+
+			$resultForm= $resultForm . "<section class='invisible' id='".$number."'>";
 			for($y=0;$y<5;$y++){ 
-				if($y == 2){$resultForm = $resultForm . "<input type='radio' style='height:35px; width:35px;' name='" . $number . "' id='" . $number . "' value='" . $y . "' checked>  </>";
+			// 	if($y == 2){$resultForm = $resultForm . "<input type='radio' style='height:35px; width:35px;' name='" . $number . "' id='" . $number . "' value='" . $y . "' checked>  </>";
+			// }
+			// else{
+			// 	$resultForm = $resultForm . "<input type='radio' style='height:35px; width:35px;' name='" . $number . "' id='" . $number . "' value='" . $y . "'>  </>";
+			// }
+			$resultForm = $resultForm . "<input type='radio' style='height:35px; width:35px;' name='" . $number . "' id='" . $number . "' value='" . $y . "'>  </>";
 			}
-			else{
-				$resultForm = $resultForm . "<input type='radio' style='height:35px; width:35px;' name='" . $number . "' id='" . $number . "' value='" . $y . "'>  </>";
-			}
-			}
-		$resultForm = $resultForm . "<br><label style='font-weight: 500; color: blue; font-size: 30px' for='" . $number . "'>" . $question . "</label><br><br><br>";
+		$resultForm = $resultForm . "<br><label style='font-weight: 500; color: blue; font-size: 30px' for='" . $number . "'>" . $question . "</label><br>";
+		$resultForm= $resultForm . "</section>";
 		}
-		$resultForm = $resultForm . "<input type='submit' value='Submit for Scoring' >";
+		$resultForm = $resultForm . "<input type='submit' class='invisible' value='Submit for Scoring'>";
 		$resultForm=$resultForm . "</form>";
 		echo $resultForm;
 	?>
@@ -242,9 +251,9 @@ else {
 		<br /><a href="holland.php">Find out more about the Holland Interest Questionnaire here</a>
 	</p>
 	<?php
-		if($_SESSION['username']=="TMP"){
-			echo "<p>As a registered user you will have access to detailed personality analysis results, a personal interest assessment, recommended careers, personalized recommendation regarding upcoming events that fit you perfectly.  <a href='newlogin.php'>REGISTER NOW</a></p>";
-		}
+		// if($_SESSION['username']=="TMP"){
+		// 	echo "<p>As a registered user you will have access to detailed personality analysis results, a personal interest assessment, recommended careers, personalized recommendation regarding upcoming events that fit you perfectly.  <a href='newlogin.php'>REGISTER NOW</a></p>";
+		// }
 	?>
 
 					</div>
@@ -255,7 +264,9 @@ else {
 
 	<!-- Single column content area end -->
 
-	<?php include('./includes/footer.html'); ?>
+	<?php 
+		// include('./includes/footer.html'); 
+	?>
 
     <!-- link that opens popup -->
     <!-- JS here -->
