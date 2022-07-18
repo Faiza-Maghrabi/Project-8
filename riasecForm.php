@@ -190,12 +190,21 @@ else {
 	?>
 	<br><br>
 	<!-- NEW CODE AFTER THIS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js" integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+	<!--Progress bar html set up-->
+	<div id="bar-hold" class="invisible" style="position:relative; width: 100%; border: 1px solid black">
+        <div  id="progress-bar" style="background-color: green; height: 30px; width:0%"></div>
+	</div>
+
+
 	<script src="riasecForm.js" defer></script>
-	<section id="0">
-	<h2>Interest Survey</h4>
-	<h3>Do not worry about whether you have the skills or training to do an activity, or how much money you might make. Simply think about whether you would enjoy doing it or not and rate each item from 1 ( Would hate doing it!)  to 5 (Would love doing it!).</h3>
-	<h3>1..............................5    Low Interest to High Interest</h3>
-	<h3>Press the Button below to begin!</h3> 
+	<section class="visible" id="-1" >
+		<h3>Interest Survey</h4>
+		<h4>Don't worry about whether you have the skills or training to do an activity - or about how much money you might make. </h4> 
+		<h4>Just think about whether you would enjoy doing it or not and rate each item from 1 (Would hate doing it!) to 5 (Would love doing it!).</h4>
+		<h4>Press the Button below to begin!</h4>
+		<button type="button" class="button">Start</button>
 	</section>
 
 	</div>
@@ -211,6 +220,19 @@ else {
 		.invisible{
 			style.display: "none";
 			position: absolute;
+		}
+
+		.button{
+			width: 100%;
+		}
+
+		.center{
+			margin-left: 50%;
+			width: 60%;
+		}
+
+		img{
+			width:5vw;
 		}
 
 	</style>
@@ -231,18 +253,15 @@ else {
 			$area=$lookup[$x]['area'];
 			$question=$lookup[$x]['text'];
 
-			$resultForm= $resultForm . "<section class='invisible' id='".$number."'>";
+			$resultForm= $resultForm . "<section class='invisible center' id='".$number."'>";
+			$resultForm = $resultForm . "<br><label style='font-weight: 700; color: blue; font-size: 30px' for='" . $number . "'>" . $question . "</label><br>";
 			for($y=0;$y<5;$y++){ 
-			// 	if($y == 2){$resultForm = $resultForm . "<input type='radio' style='height:35px; width:35px;' name='" . $number . "' id='" . $number . "' value='" . $y . "' checked>  </>";
-			// }
-			// else{
-			// 	$resultForm = $resultForm . "<input type='radio' style='height:35px; width:35px;' name='" . $number . "' id='" . $number . "' value='" . $y . "'>  </>";
-			// }
-			$resultForm = $resultForm . "<input type='radio' style='height:35px; width:35px;' name='" . $number . "' id='" . $number . "' value='" . $y . "'>  </>";
+			$resultForm = $resultForm . "<input type='radio' style='height:35px; width:35px;' name='" . $number . "' id='" . $number . " ".$y."' class='invisible' value='".$y."'>  </>
+			<label for='" . $number . " ".$y."'><img src='Emojis/".($y + 1).".png' alt='png ".($y + 1)."' /></label>";
 			}
-		$resultForm = $resultForm . "<br><label style='font-weight: 500; color: blue; font-size: 30px' for='" . $number . "'>" . $question . "</label><br>";
 		$resultForm= $resultForm . "</section>";
 		}
+		$resultForm = $resultForm . "<button type='button' class='invisible' id='back'>Back</button>";
 		$resultForm = $resultForm . "<input type='submit' class='invisible' value='Submit for Scoring'>";
 		$resultForm=$resultForm . "</form>";
 		echo $resultForm;
