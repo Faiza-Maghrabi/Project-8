@@ -1,6 +1,6 @@
 <?php // riasec questionnaire resultEd Jones  5/22/2020
 session_start();
-$debug=true;
+$debug=false;
 if($debug){ echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>'; }
 $textsavedate = date("Y-m-d H:i:s");
 $lookup = array();
@@ -15,7 +15,7 @@ if($debug){echo "<p>json_decode error =" . json_last_error_msg() . "</p>";}
 if($debug){echo "<p> Scores =" . $lookup . "</p>";}
 if($debug){print_r($lookup);}
 echo "      <p></p>";
-print_r($_POST);
+if($debug){print_r($_POST);}
 
 // load scores to lookup
 for ($x=1;$x<count($lookup)+1;$x++){
@@ -183,9 +183,9 @@ if($lookup[$x]['area']=="Conventional"){$riasec[5]=$riasec[5]+$lookup[$x]['score
 	<p><br /><a href="holland.php">Find out more about the Holland Interest Questionnaire here</a>
 	</p>
 	<?php
-	if($_SESSION['username']=="TMP"){
-		echo "<p>As a registered user you will have access to detailed personality analysis results, a personal interest assessment, recommended careers, personalized recommendation regarding upcoming events that fit you perfectly.  <a href='newlogin.php'>REGISTER NOW</a></p>";
-	}
+	// if($_SESSION['username']=="TMP"){
+	// 	echo "<p>As a registered user you will have access to detailed personality analysis results, a personal interest assessment, recommended careers, personalized recommendation regarding upcoming events that fit you perfectly.  <a href='newlogin.php'>REGISTER NOW</a></p>";
+	// }
 	
 	
 	?>
@@ -198,7 +198,9 @@ if($lookup[$x]['area']=="Conventional"){$riasec[5]=$riasec[5]+$lookup[$x]['score
 
 	<!-- Single column content area end -->
 
-	<?php include('./includes/footer.html'); ?>
+	<?php 
+    // include('./includes/footer.html'); 
+    ?>
 
     <!-- link that opens popup -->
     <!-- JS here -->

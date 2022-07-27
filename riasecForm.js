@@ -5,17 +5,18 @@ function delay(){
     });
 }
 
-const allradio = document.querySelectorAll('input[type="radio"]');
-//console.log(allradio);
-for (let i = 0; i < allradio.length; i++) {
-    allradio[i].addEventListener('click',checkEnd);
-}
+// const allradio = document.querySelectorAll('input[type="radio"]');
+// //console.log(allradio);
+// for (let i = 0; i < allradio.length; i++) {
+//     allradio[i].addEventListener('click',checkEnd);
+// }
 
 
 
 //function that checks what question the user is on before being able to submit
 //checks a hidden h1 element for the id number - hides the old one and shows the new one
 async function checkEnd(){
+    //console.log(e.type);
     await delay();
     let numElement = document.querySelector('h1[class="number"]');
     let num = numElement.id;
@@ -23,21 +24,47 @@ async function checkEnd(){
         numElement.id = parseInt(num) + 1;
         //console.log(numElement);
         updateBar(parseInt(num) + 1);
-        let oldQuestion = document.querySelector('section[id="'+num+'"]');
-        oldQuestion.className = "invisible";
+        // if (num != -1){
+        //     hideOld(num);
+        // }
+        // else{
+        //     let oldQuestion = document.querySelector('section[id=-1]');
+        //     oldQuestion.className = "hidden";
+        // }
+        hideOld(num);
 
-        let newQuestion = document.querySelector('section[id="'+numElement.id+'"]');
-        newQuestion.className = "visible";
+        // let newQuestion = document.querySelector('section[id="'+numElement.id+'"]');
+        // newQuestion.className = "nothidden";
+        showNew(parseInt(num)+1);
 
-        console.log(num);        
+        //console.log(num);        
     }
     else{
-        let oldQuestion = document.querySelector('section[id="60"]');
-        oldQuestion.className = "invisible";
+        // let oldQuestion = document.querySelector('section[id="60"]');
+        // oldQuestion.className = "hidden";
+        hideOld(num);
         let submitButn = document.querySelector('input[type="submit"]');
-        submitButn.className = "visible";
+        submitButn.className = "nothidden";
     }
 
+}
+
+function hideOld(currid){
+    console.log("delet" + currid);
+    document.querySelector('h2[id="'+currid+'"]').className = "hidden";
+    for (let i = 0; i < 5; i++) {
+        document.querySelector('input[id="'+currid+' '+i+'"]').type = "hidden";
+        document.querySelector('label[for="'+currid+' '+i+'"]').className = "hidden";
+    }
+}
+
+function showNew(currid){
+    console.log("save " + currid);
+    document.querySelector('h2[id="'+currid+'"]').className = "nothidden";
+    for (let i = 0; i < 5; i++) {
+        document.querySelector('input[id="'+currid+' '+i+'"]').type = "radio";
+        document.querySelector('label[for="'+currid+' '+i+'"]').className = "emojishow";;
+    }
 }
 
 function PrevQuestion(){
@@ -48,10 +75,10 @@ function PrevQuestion(){
         //console.log(numElement);
         updateBar(parseInt(num) - 1);
         let oldQuestion = document.querySelector('section[id="'+num+'"]');
-        oldQuestion.className = "invisible";
+        oldQuestion.className = "hidden";
 
         let newQuestion = document.querySelector('section[id="'+numElement.id+'"]');
-        newQuestion.className = "visible";
+        newQuestion.className = "nothidden";
         
     }
 }
@@ -63,10 +90,11 @@ function updateBar(QNum){
 }
 
 function beginQuiz(){
-    document.querySelector('section[id="-1"]').className = "invisible";
-    document.querySelector('section[id="1"]').className = "visible";
-    document.getElementById("bar-hold").className = "visible";
-    document.getElementById("back").className = "visible";
+    document.querySelector('section[id="-1"]').className = "hidden";
+    // document.querySelector('section[id="1"]').className = "nothidden";
+    showNew(1);
+    document.getElementById("bar-hold").className = "nothidden";
+    document.getElementById("back").className = "nothidden";
 }
 
 //IMAGE CHANGING - IF NO SELECT, THEN EVERY HOVER CHANGES IMAGE
