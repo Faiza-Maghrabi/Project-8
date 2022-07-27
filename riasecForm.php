@@ -194,7 +194,7 @@ else {
 
 	<!--Progress bar html set up-->
 	<div id="bar-hold" class="invisible" style="position:relative; width: 100%; border: 1px solid black">
-        <div  id="progress-bar" style="background-color: green; height: 30px; width:0%"></div>
+        <div  id="progress-bar" style="background-color: #223B52; height: 30px; width:0%"></div>
 	</div>
 
 
@@ -204,7 +204,7 @@ else {
 		<h4>Don't worry about whether you have the skills or training to do an activity - or about how much money you might make. </h4> 
 		<h4>Just think about whether you would enjoy doing it or not and rate each item from 1 (Would hate doing it!) to 5 (Would love doing it!).</h4>
 		<h4>Press the Button below to begin!</h4>
-		<button type="button" class="button">Start</button>
+		<button type="button" class="button" style=' width:100%; font-size: 80px text-align:center; background-color: #223B52; color: white; font-weight: 700;'>Start</button>
 	</section>
 
 	</div>
@@ -222,17 +222,8 @@ else {
 			position: absolute;
 		}
 
-		.button{
-			width: 100%;
-		}
-
-		.center{
-			margin-left: 50%;
-			width: 60%;
-		}
-
 		img{
-			width:5vw;
+			width:80px;
 		}
 
 	</style>
@@ -247,22 +238,27 @@ else {
 
 	<?php
 		echo "<h1 class='number' id='1'></h1>";
-		$resultForm = "<form action='riasecResult.php' method='POST'>";
+		$resultForm = "<form width:100% action='riasecResult.php' method='POST'>";
 		for ($x=0;$x<count($lookup);$x++){
 			$number=$lookup[$x]['question#'];
 			$area=$lookup[$x]['area'];
 			$question=$lookup[$x]['text'];
 
-			$resultForm= $resultForm . "<section class='invisible center' id='".$number."'>";
-			$resultForm = $resultForm . "<br><label style='font-weight: 700; color: blue; font-size: 30px' for='" . $number . "'>" . $question . "</label><br>";
+			$resultForm= $resultForm . "<section class='invisible' id='".$number."'>";
+			$resultForm = $resultForm . "<br><label style='font-weight: 900; color: #223B52; padding: 0.5vw; font-size: 25px' for='" . $number . "'>" . $question . "</label><br><p></p>";
 			for($y=0;$y<5;$y++){ 
-			$resultForm = $resultForm . "<input type='radio' style='height:35px; width:35px;' name='" . $number . "' id='" . $number . " ".$y."' class='invisible' value='".$y."'>  </>
-			<label for='" . $number . " ".$y."'><img src='Emojis/".($y + 1).".png' alt='png ".($y + 1)."' /></label>";
+				$initpng = "Emojis/".($y + 1).".png";
+
+				//$resultForm = $resultForm . "<input type='radio' style='height:35px; width:35px;' name='" . $number . "' id='" . $number . "' value='" . $y . "'>  </>";
+
+
+				$resultForm = $resultForm . "<input type='radio' style='height:35px; width:35px;' name='" . $number . "' id='" . $number . " ".$y."' class='invisible' value='".$y."'>  
+				<label for='" . $number . " ".$y."'><img onmouseover=hover(".$number.",".$y.") onmouseout=hoverOff(".$number.",".$y.") src='".$initpng."' alt='png ".($y + 1)."' /></label></>";
 			}
 		$resultForm= $resultForm . "</section>";
 		}
-		$resultForm = $resultForm . "<button type='button' class='invisible' id='back'>Back</button>";
-		$resultForm = $resultForm . "<input type='submit' class='invisible' value='Submit for Scoring'>";
+		$resultForm = $resultForm . "<p></p><button type='button' class='invisible' id='back' style='padding:5px 40px; font-size: 80px text-align:center; background-color: #223B52; color: white; font-weight: 700;'>Back</button><p></p>";
+		$resultForm = $resultForm . "<input type='submit' class='invisible' value='Submit for Scoring' style='width:100%; font-size: 80px text-align:center; background-color: #223B52; color: white; font-weight: 700;'>";
 		$resultForm=$resultForm . "</form>";
 		echo $resultForm;
 	?>

@@ -1,10 +1,10 @@
 <?php // riasec questionnaire resultEd Jones  5/22/2020
 session_start();
-$debug=false;
+$debug=true;
 if($debug){ echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>'; }
 $textsavedate = date("Y-m-d H:i:s");
 $lookup = array();
-$riasec=array();
+$riasec = array();
 // get questions
 $fh=fopen("riasec_questions.json","r");
 $workstring=fread($fh,filesize("riasec_questions.json"));
@@ -14,12 +14,19 @@ fclose($fh);
 if($debug){echo "<p>json_decode error =" . json_last_error_msg() . "</p>";}
 if($debug){echo "<p> Scores =" . $lookup . "</p>";}
 if($debug){print_r($lookup);}
+echo "      <p></p>";
+print_r($_POST);
 
 // load scores to lookup
 for ($x=1;$x<count($lookup)+1;$x++){
 $lookup[$x-1]['score']=$_POST[$x];	
 }
 if($debug){echo '<pre>' . print_r($lookup, TRUE) . '</pre>';}
+
+for ($i=0; $i < 6; $i++) { 
+    $riasec[$i] = 0;
+}
+
 // calculate summary scores
 for($x=0;$x<count($lookup);$x++){
 if($lookup[$x]['area']=="Realistic"){$riasec[0]=$riasec[0]+$lookup[$x]['score'];}
@@ -30,7 +37,6 @@ if($lookup[$x]['area']=="Enterprising"){$riasec[4]=$riasec[4]+$lookup[$x]['score
 if($lookup[$x]['area']=="Conventional"){$riasec[5]=$riasec[5]+$lookup[$x]['score'];}
 }
 // report
-
 
 ?>
 <!doctype html>
@@ -88,12 +94,12 @@ if($lookup[$x]['area']=="Conventional"){$riasec[5]=$riasec[5]+$lookup[$x]['score
 
 <?php
 //echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
-if (isset($_SESSION['userid'])== FALSE || $_SESSION['username'] == "TMP") {
-	include('./includes/top-menu-notloggedin.html');
-}
-else {
-	include('./includes/top-menu-loggedin.html');
-}
+// if (isset($_SESSION['userid'])== FALSE || $_SESSION['username'] == "TMP") {
+// 	include('./includes/top-menu-notloggedin.html');
+// }
+// else {
+// 	include('./includes/top-menu-loggedin.html');
+// }
 ?>
 
 <!-- end of top menu -->
@@ -146,18 +152,18 @@ else {
 	$userip=$_SERVER['REMOTE_ADDR'];
 	// Create connection
 
-	$con = mysqli_connect($host, $user, $password, $dbname)
-		or die ('Could not connect to the database server   ' . mysqli_connect_error());
+	// $con = mysqli_connect($host, $user, $password, $dbname)
+	// 	or die ('Could not connect to the database server   ' . mysqli_connect_error());
 		
-	$source="10";
-	$type="10";
-	$version="test";
-	$values="'" . $_SESSION['userid'] . "','" . $textsavedate . "','" . $source . "','" . $type . "','" . $version . "','" . $riasec[0] . "','" . $riasec[1] . "','" . $riasec[2] . "','" . $riasec[3] . "','" . $riasec[4] . "','" . $riasec[5] . "'";
-	$datafields="userid, interest_scores_date, interest_scores_source, interest_scores_type, interest_scores_version, interest_scores_r, interest_scores_i, interest_scores_a, interest_scores_s, interest_scores_e, interest_scores_c";
-	$sql="INSERT INTO inferent_ifutures.interest_scores (" . $datafields . ") VALUES (" . $values . ")";
-	$result = $con->query($sql);
+	// $source="10";
+	// $type="10";
+	// $version="test";
+	// $values="'" . $_SESSION['userid'] . "','" . $textsavedate . "','" . $source . "','" . $type . "','" . $version . "','" . $riasec[0] . "','" . $riasec[1] . "','" . $riasec[2] . "','" . $riasec[3] . "','" . $riasec[4] . "','" . $riasec[5] . "'";
+	// $datafields="userid, interest_scores_date, interest_scores_source, interest_scores_type, interest_scores_version, interest_scores_r, interest_scores_i, interest_scores_a, interest_scores_s, interest_scores_e, interest_scores_c";
+	// $sql="INSERT INTO inferent_ifutures.interest_scores (" . $datafields . ") VALUES (" . $values . ")";
+	// $result = $con->query($sql);
 	
-	$con->close();
+	// $con->close();
 	
 	echo "<p>Results Saved To Your Profile</p>";
 	echo "<a href='onetRecalc.php'>Request Updated Career Recommendations</a>";
