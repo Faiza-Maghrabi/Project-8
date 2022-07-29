@@ -1,25 +1,34 @@
-//function to delay question transfer to make decsions more visible - not currently being used
+//function to delay question transfer to make decsions more visible
 function delay(){
     return new Promise(resolve => {
-        setTimeout(resolve, 200);
+        setTimeout(resolve, 400);
     });
 }
 
-// const allradio = document.querySelectorAll('input[type="radio"]');
-// //console.log(allradio);
-// for (let i = 0; i < allradio.length; i++) {
-//     allradio[i].addEventListener('click',checkEnd);
-// }
-
+//function that changes the size of the image that is selected
+function ClickSizeChange(num){
+    for (let i = 0; i < 5; i++) {
+        console.log(i);
+        let input = document.querySelector('input[id="'+num+' '+i+'"]')
+        if (input.checked == true) {
+            document.querySelector('label[for="'+num+' '+i+'"] img').width = "90";
+        }
+        else{
+            document.querySelector('label[for="'+num+' '+i+'"] img').width = "70";
+        }
+    }
+}
 
 
 //function that checks what question the user is on before being able to submit
 //checks a hidden h1 element for the id number - hides the old one and shows the new one
 async function checkEnd(){
-    //console.log(e.type);
-    await delay();
     let numElement = document.querySelector('h1[class="number"]');
     let num = numElement.id;
+    //change image appearance
+    ClickSizeChange(num);
+
+    await delay();
     if (num != 60) {
         numElement.id = parseInt(num) + 1;
         //console.log(numElement);
@@ -50,7 +59,6 @@ async function checkEnd(){
 }
 
 function hideOld(currid){
-    console.log("delet" + currid);
     document.querySelector('h2[id="'+currid+'"]').className = "hidden";
     for (let i = 0; i < 5; i++) {
         document.querySelector('input[id="'+currid+' '+i+'"]').type = "hidden";
@@ -59,27 +67,22 @@ function hideOld(currid){
 }
 
 function showNew(currid){
-    console.log("save " + currid);
     document.querySelector('h2[id="'+currid+'"]').className = "nothidden";
     for (let i = 0; i < 5; i++) {
         document.querySelector('input[id="'+currid+' '+i+'"]').type = "radio";
-        document.querySelector('label[for="'+currid+' '+i+'"]').className = "emojishow";;
+        document.querySelector('label[for="'+currid+' '+i+'"]').className = "emojishow";
     }
 }
 
 function PrevQuestion(){
     let numElement = document.querySelector('h1[class="number"]');
     let num = numElement.id;
-    if (num != 1) {
-        numElement.id = parseInt(num) - 1;
-        //console.log(numElement);
-        updateBar(parseInt(num) - 1);
-        let oldQuestion = document.querySelector('section[id="'+num+'"]');
-        oldQuestion.className = "hidden";
 
-        let newQuestion = document.querySelector('section[id="'+numElement.id+'"]');
-        newQuestion.className = "nothidden";
-        
+    if (num!= 1){
+        numElement.id = parseInt(num) - 1;
+        hideOld(num);
+        showNew(num-1);
+        updateBar(parseInt(num)-1);
     }
 }
 
@@ -97,12 +100,7 @@ function beginQuiz(){
     document.getElementById("back").className = "nothidden";
 }
 
-//IMAGE CHANGING - IF NO SELECT, THEN EVERY HOVER CHANGES IMAGE
-//IF THE RADIO WAS ALREADY SELECTED, IMAGE DOSENT CHANGE
-//IF THE RADIO WASNT ALREADY SELECTED - BUT ANOTHER ONE WAS - HAVE BOTH CHANGE - IF NEW ONE IS SELECTRED, THE PREVIOUS ONE'S CHANGES ARE REMOVED.
-
-
-//changes image when hovered over - NEED TO CHECK IF SOMETHING IS SELECTED OR NOT
+//changes image when hovered over
 function hover(number,y){
     let combine = number + " " + y;
     //console.log(document.querySelector('label[for="'+combine+'"] img'));

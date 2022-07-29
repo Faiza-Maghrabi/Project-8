@@ -229,10 +229,6 @@ else {
 			/* position: absolute; */
 		}
 
-		img{
-			width:80px;
-		}
-
 	</style>
 
 	<?php
@@ -257,7 +253,7 @@ else {
 			for($y=0;$y<5;$y++){ 
 				$initpng = "Emojis/".($y + 1).".png";
 				$resultForm = $resultForm . "<input type='hidden' onclick=checkEnd(); style='height:0px; width:0px;' name='" . $number . "' id='" . $number . " ".$y."' value='".$y."'>  
-				<label class='hidden' for='" . $number . " ".$y."'><img onmouseover=hover(".$number.",".$y.") onmouseout=hoverOff(".$number.",".$y.") src='".$initpng."' alt='png ".($y + 1)."' /></label></>";
+				<label class='hidden' for='" . $number . " ".$y."'><img onmouseover=hover(".$number.",".$y.") onmouseout=hoverOff(".$number.",".$y.") src='".$initpng."' alt='png ".($y + 1)."' width='70' /></label></>";
 			}
 			// $resultForm= $resultForm . "</section>";
 		}
