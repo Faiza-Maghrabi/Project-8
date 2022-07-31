@@ -17,6 +17,7 @@ if($debug){print_r($lookup);}
 echo "      <p></p>";
 if($debug){print_r($_POST);}
 
+
 // load scores to lookup
 for ($x=1;$x<count($lookup)+1;$x++){
 $lookup[$x-1]['score']=$_POST[$x];	

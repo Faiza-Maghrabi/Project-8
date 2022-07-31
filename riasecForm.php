@@ -245,20 +245,19 @@ else {
 		for ($x=0;$x<count($lookup);$x++){
 			
 			$number=$lookup[$x]['question#'];
-			$area=$lookup[$x]['area'];
 			$question=$lookup[$x]['text'];
 
-			// $resultForm= $resultForm . "<section id='".$number."'>";
-			$resultForm = $resultForm . "<h2 class='hidden' id='".$number."' style='font-weight: 900; color: #223B52; padding: 0.5vw; font-size: 25px' for='" . $number . "'>" . $question . "</h2>";
-			for($y=0;$y<5;$y++){ 
+			$resultForm = $resultForm . "<section class='hidden' id='".$number."'>";
+			$resultForm = $resultForm . "<h2 id='".$number."' style='font-weight: 900; color: #223B52; padding: 0.5vw; font-size: 25px' >".$question."</h2>";
+			for ($y=0; $y < 5; $y++) { 
 				$initpng = "Emojis/".($y + 1).".png";
-				$resultForm = $resultForm . "<input type='hidden' onclick=checkEnd(); style='height:0px; width:0px;' name='" . $number . "' id='" . $number . " ".$y."' value='".$y."'>  
-				<label class='hidden' for='" . $number . " ".$y."'><img onmouseover=hover(".$number.",".$y.") onmouseout=hoverOff(".$number.",".$y.") src='".$initpng."' alt='png ".($y + 1)."' width='70' /></label></>";
+				$resultForm = $resultForm . "<input type='radio' onclick=checkEnd(); style='height:0px; width:0px;' name='" . $number . "' id='" . $number . " ".$y."' value='".$y."'>  
+				<label  for='" . $number . " ".$y."'><img onmouseover=hover(".$number.",".$y.") onmouseout=hoverOff(".$number.",".$y.") src='".$initpng."' alt='png ".($y + 1)."' width='70' /></label></>";
 			}
-			// $resultForm= $resultForm . "</section>";
+            $resultForm = $resultForm . "</section>";
 		}
 		$resultForm = $resultForm . "<p></p><button type='button' class='hidden' id='back' style='padding:5px 40px; font-size: 80px text-align:center; background-color: #223B52; color: white; font-weight: 700;'>Back</button><p></p>";
-		$resultForm = $resultForm . "<input type='submit' class='hidden' value='Submit for Scoring' style='width:100%; font-size: 80px text-align:center; background-color: #223B52; color: white; font-weight: 700;'>";
+		$resultForm = $resultForm . "<input type='submit' class='hidden' onclick=aa();  value='Submit for Scoring' style='width:100%; font-size: 80px text-align:center; background-color: #223B52; color: white; font-weight: 700;'>";
 		$resultForm=$resultForm . "</form>";
 		echo $resultForm;
 
